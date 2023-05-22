@@ -1,0 +1,12 @@
+{
+  "name": "electron-stock-charts",
+  "productName": "electron-stock-charts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bundle/main.prod.js",
+  "author": {
+    "name": "Andrew Novak",
+    "email": "contact@andrewnovak.co.uk"
+  },
+  "scripts": {}
+}
