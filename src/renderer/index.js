@@ -5,14 +5,14 @@ import { render } from "react-dom";
 
 import store from "./store";
 import theme from "./theme";
-import Screen from "./Screen";
+import Routes from "./Routes";
 import ConsecutiveSnackbars from "./components/ConsecutiveSnackbars";
 
 const App = () => (
   <StoreProvider store={store}>
     <MuiThemeProvider theme={theme}>
       <CssBaseline />
-      <Screen />
+      <Routes />
       <ConsecutiveSnackbars />
     </MuiThemeProvider>
   </StoreProvider>
