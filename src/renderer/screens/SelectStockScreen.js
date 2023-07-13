@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList } from "react-window";
 import { Button } from "@material-ui/core";
 import { connect } from "react-redux";
 
@@ -8,13 +10,16 @@ import LoadingScreen from "./LoadingScreen";
 import Header from "../components/Header";
 
 const Screen = ({ stocks, setStocks, setSelectedStock }) => {
+  const [searchInput, setSearchInput] = useState("");
+
   // get stock symbols
   useEffect(() => {
     (async () => {
       const response = await axios.get(
         "https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=PYALSYIJLNMARVK5"
       );
-      if (!response.data) return;
+      if (!response.data || Object.keys(response.data).length === 0) return;
+
       const arr = response.data.split("\n");
       const newStocks = [];
       const headers = arr[0].split(",");
@@ -41,28 +46,64 @@ const Screen = ({ stocks, setStocks, setSelectedStock }) => {
       />
     );
 
+  const filteredStocks = searchInput
+    ? stocks.filter(
+        (stock) =>
+          (stock.name || "")
+            .toLowerCase()
+            .includes(searchInput.toLowerCase()) ||
+          (stock.symbol || "").toLowerCase().includes(searchInput.toLowerCase())
+      )
+    : stocks;
+
   return (
     <div
       style={{
+        display: "flex",
+        flexDirection: "column",
         height: "100vh",
       }}
     >
-      <Header title="Select Stock" />
-      <div>
-        {stocks.map((stock) => (
-          <Button
-            key={stock.symbol}
-            variant="contained"
-            style={{ borderRadius: 0, width: "100%" }}
-            onClick={() =>
-              stock.symbol &&
-              setSelectedStock({ name: stock.name, symbol: stock.symbol })
-            }
+      <Header
+        title="Select Stock"
+        searchInput={searchInput}
+        onSearchInput={(event) => setSearchInput(event.target.value)}
+      />
+
+      <AutoSizer>
+        {({ height, width }) => (
+          <FixedSizeList
+            style={{ marginTop: "64px" }}
+            height={height - 64}
+            width={width}
+            itemSize={50}
+            itemCount={filteredStocks.length}
           >
-            {stock.name}
-          </Button>
-        ))}
-      </div>
+            {({ index, style }) => (
+              <Button
+                key={filteredStocks[index].symbol}
+                variant="contained"
+                style={{
+                  height: 50,
+                  borderRadius: 0,
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  ...style,
+                }}
+                onClick={() =>
+                  filteredStocks[index].symbol &&
+                  setSelectedStock({
+                    name: filteredStocks[index].name,
+                    symbol: filteredStocks[index].symbol,
+                  })
+                }
+              >
+                {filteredStocks[index].name}
+              </Button>
+            )}
+          </FixedSizeList>
+        )}
+      </AutoSizer>
     </div>
   );
 };

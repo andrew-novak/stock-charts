@@ -32,7 +32,6 @@ export default (state = initialState, action) => {
       };
 
     case UNSELECT_STOCK:
-      console.log("ELO");
       return {
         ...state,
         selectedStock: null,

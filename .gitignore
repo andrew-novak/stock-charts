@@ -7,6 +7,7 @@
 /coverage
 
 # Production
+/prod/package-lock.json
 /prod/bundle
 /release
 
