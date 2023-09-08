@@ -17,3 +17,17 @@ npm i
 ```
 npm run start
 ```
+
+To build for production:
+
+1. Install dependencies:
+
+```
+npm i
+```
+
+2. Build:
+
+```
+npm run release
+```

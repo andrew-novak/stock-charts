@@ -25,6 +25,18 @@ export default {
         // exclude: /node_modules/,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+              name: "images/[name].[ext]",
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
