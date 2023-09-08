@@ -24,7 +24,6 @@
     "type": "git",
     "url": "git+https://github.com/andrew-novak/electron-stock-charts.git"
   },
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/andrew-novak/electron-stock-charts/issues"
   },
