@@ -9,27 +9,29 @@ import path from "path";
 const isMac = process.platform === "darwin";
 let mainWindow = null;
 
-const installExtensions = async () => {
+const installExtensions = () => {
   const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
   return installExtension(extensions)
     .then((name) => console.log(`Added Extension: ${name}`))
     .catch((err) => console.error(`An error occurred: ${err}`));
 };
 
-const createWindow = async () => {
+const createWindow = () => {
   if (process.env.NODE_ENV === "development") {
-    await installExtensions();
+    installExtensions();
   }
 
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
     height: 728,
+    icon: path.join(__dirname, "icon.png"), // for development & AppImage
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false, // otherwise process is not defined in renderer's index.html
     },
   });
+  mainWindow.setTitle("Stock Charts");
 
   const { webContents } = mainWindow;
 

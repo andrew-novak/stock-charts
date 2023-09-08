@@ -1,18 +1,26 @@
 import {
+  SET_API_KEY_INDEX,
   SET_STOCKS,
+  SET_STOCK_DATA_POINTS,
   SET_SELECTED_STOCK,
-  SET_DATA_POINTS,
   UNSELECT_STOCK,
 } from "../constants/actionTypes";
 
 const initialState = {
+  apiKeyIndex: 0,
   stocks: null,
   selectedStock: null,
-  dataPoints: null,
+  stockDataPoints: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_API_KEY_INDEX:
+      return {
+        ...state,
+        apiKeyIndex: action.apiKeyIndex,
+      };
+
     case SET_STOCKS:
       return {
         ...state,
@@ -25,10 +33,10 @@ export default (state = initialState, action) => {
         selectedStock: action.selectedStock,
       };
 
-    case SET_DATA_POINTS:
+    case SET_STOCK_DATA_POINTS:
       return {
         ...state,
-        dataPoints: action.dataPoints,
+        stockDataPoints: action.stockDataPoints,
       };
 
     case UNSELECT_STOCK:

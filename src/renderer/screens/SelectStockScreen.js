@@ -1,53 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
-import { Button } from "@material-ui/core";
+import { useMediaQuery, Button } from "@material-ui/core";
 import { connect } from "react-redux";
 
-import { setStocks, setSelectedStock } from "../actions/general";
+import fetchStocks from "../actions/fetchStocks";
+import { setSelectedStock, unselectStock } from "../actions/general";
 import LoadingScreen from "./LoadingScreen";
 import Header from "../components/Header";
 
-const Screen = ({ stocks, setStocks, setSelectedStock }) => {
+const Screen = ({ apiKeyIndex, stocks, fetchStocks, setSelectedStock }) => {
   const [searchInput, setSearchInput] = useState("");
 
-  // get stock symbols
-  useEffect(() => {
-    (async () => {
-      const response = await axios.get(
-        "https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=PYALSYIJLNMARVK5"
-      );
-      if (!response.data || Object.keys(response.data).length === 0) return;
-
-      const arr = response.data.split("\n");
-      const newStocks = [];
-      const headers = arr[0].split(",");
-      for (let i = 1; i < arr.length; i += 1) {
-        const data = arr[i].split(",");
-        const obj = {};
-        for (let j = 0; j < data.length; j += 1) {
-          obj[headers[j].trim()] = data[j].trim();
-        }
-        newStocks.push(obj);
-      }
-      setStocks(newStocks);
-    })();
-  }, []);
-
-  if (!stocks)
-    return (
-      <LoadingScreen
-        text="Loading Stock Chart"
-        button={{
-          label: "Refresh",
-          onClick: () => window.location.reload(false),
-        }}
-      />
-    );
+  const biggerThan600px = useMediaQuery("(min-width:600px)");
 
   const filteredStocks = searchInput
-    ? stocks.filter(
+    ? (stocks || []).filter(
         (stock) =>
           (stock.name || "")
             .toLowerCase()
@@ -55,6 +23,19 @@ const Screen = ({ stocks, setStocks, setSelectedStock }) => {
           (stock.symbol || "").toLowerCase().includes(searchInput.toLowerCase())
       )
     : stocks;
+
+  if (!stocks)
+    return (
+      <LoadingScreen
+        text="Loading Stock Charts"
+        buttons={[
+          {
+            label: "Refresh",
+            onClick: () => fetchStocks(apiKeyIndex),
+          },
+        ]}
+      />
+    );
 
   return (
     <div
@@ -65,7 +46,7 @@ const Screen = ({ stocks, setStocks, setSelectedStock }) => {
       }}
     >
       <Header
-        title="Select Stock"
+        title={biggerThan600px && "Select Stock"}
         searchInput={searchInput}
         onSearchInput={(event) => setSearchInput(event.target.value)}
       />
@@ -109,11 +90,12 @@ const Screen = ({ stocks, setStocks, setSelectedStock }) => {
 };
 
 const mapState = (state) => {
-  const { stocks } = state.general;
-  return { stocks };
+  const { apiKeyIndex, stocks } = state.general;
+  return { apiKeyIndex, stocks };
 };
 
 export default connect(mapState, {
-  setStocks,
+  fetchStocks,
   setSelectedStock,
+  unselectStock,
 })(Screen);

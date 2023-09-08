@@ -1,69 +1,31 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import CanvasJSReact from "@canvasjs/react-stockcharts";
 import { connect } from "react-redux";
 
-import { setDataPoints, unselectStock } from "../actions/general";
+import fetchStock from "../actions/fetchStock";
+import { unselectStock } from "../actions/general";
 import LoadingScreen from "./LoadingScreen";
 import Header from "../components/Header";
 
 const { /* CanvasJS, */ CanvasJSStockChart } = CanvasJSReact;
 
 const DisplayStockScreen = ({
+  apiKeyIndex,
   selectedStock,
-  dataPoints,
-  setDataPoints,
+  stockDataPoints,
+  fetchStock,
   unselectStock,
 }) => {
   // get data points
   useEffect(() => {
-    (async () => {
-      const response = await axios.get(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=${selectedStock.symbol}&apikey=PYALSYIJLNMARVK5`
-      );
-      const { data } = response;
+    fetchStock(apiKeyIndex, selectedStock);
+  }, []);
 
-      if (!data["Weekly Time Series"]) return;
-
-      const entries = Object.entries(data["Weekly Time Series"]);
-      const initialAccumulator = {
-        chart: [],
-        navigator: [],
-      };
-      const newDataPoints = entries.reduce(
-        (accumulator, [date, obj]) => ({
-          chart: [
-            ...accumulator.chart,
-            {
-              x: new Date(date),
-              y: [
-                Number(obj["1. open"]),
-                Number(obj["2. high"]),
-                Number(obj["3. low"]),
-                Number(obj["4. close"]),
-              ],
-            },
-          ],
-          navigator: [
-            ...accumulator.navigator,
-            {
-              x: new Date(date),
-              y: Number(obj["4. close"]),
-            },
-          ],
-        }),
-        initialAccumulator
-      );
-
-      setDataPoints(newDataPoints);
-    })();
-  });
-
-  if (!dataPoints)
+  if (!stockDataPoints)
     return (
       <LoadingScreen
         text="Loading Stock Chart"
-        button={{ label: "Go to home screen", onClick: unselectStock }}
+        buttons={[{ label: "Go to home screen", onClick: unselectStock }]}
       />
     );
 
@@ -100,10 +62,10 @@ const DisplayStockScreen = ({
                 {
                   type: "candlestick",
                   yValueFormatString: "$#,###.##",
-                  dataPoints: dataPoints.chart,
+                  dataPoints: stockDataPoints.chart,
                 },
               ],
-              navigator: [{ dataPoints: dataPoints.navigator }],
+              navigator: [{ dataPoints: stockDataPoints.navigator }],
             },
           ],
         }}
@@ -113,10 +75,10 @@ const DisplayStockScreen = ({
 };
 
 const mapState = (state) => {
-  const { selectedStock, dataPoints } = state.general;
-  return { selectedStock, dataPoints };
+  const { apiKeyIndex, selectedStock, stockDataPoints } = state.general;
+  return { apiKeyIndex, selectedStock, stockDataPoints };
 };
 
-export default connect(mapState, { setDataPoints, unselectStock })(
+export default connect(mapState, { fetchStock, unselectStock })(
   DisplayStockScreen
 );

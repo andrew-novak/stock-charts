@@ -1,8 +1,10 @@
 # electron-stock-charts
 
-A desktop app for viewing stock charts.
+Desktop app for visualizing stock charts.
 
-To run:
+The app can be downloaded [here](https://andrewnovak.co.uk/project/7).
+
+To run in development mode:
 
 1. Install dependencies:
 
