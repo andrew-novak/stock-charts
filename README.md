@@ -1,6 +1,8 @@
-[logo]: https://github.com/andrew-novak/stock-charts/raw/main/icons/icon_64x64.png "Stock Charts Logo"
+[logo]: https://github.com/andrew-novak/stock-charts/raw/main/icons/icon_128x128.png "Stock Charts Logo"
 
-# ![Stock Charts app logo][logo] stock-charts
+![Stock Charts app logo][logo]
+
+# Stock Charts
 
 Desktop app for visualizing stock charts.
 
