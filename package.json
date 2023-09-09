@@ -1,5 +1,5 @@
 {
-  "name": "electron-stock-charts",
+  "name": "stock-charts",
   "version": "1.0.0",
   "description": "Desktop app for visualizing stock charts.",
   "author": {
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andrew-novak/electron-stock-charts.git"
+    "url": "git+https://github.com/andrew-novak/stock-charts.git"
   },
   "bugs": {
-    "url": "https://github.com/andrew-novak/electron-stock-charts/issues"
+    "url": "https://github.com/andrew-novak/stock-charts/issues"
   },
-  "homepage": "https://github.com/andrew-novak/electron-stock-charts#readme",
+  "homepage": "https://github.com/andrew-novak/stock-charts#readme",
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@babel/plugin-transform-runtime": "^7.13.10",

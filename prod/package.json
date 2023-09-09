@@ -1,6 +1,5 @@
 {
-  "name": "electron-stock-charts",
-  "productName": "electron-stock-charts",
+  "name": "stock-charts",
   "version": "1.0.0",
   "description": "Desktop app for visualizing stock charts.",
   "main": "./bundle/main.prod.js",

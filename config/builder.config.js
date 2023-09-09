@@ -1,6 +1,6 @@
 module.exports = {
   productName: "Stock Charts",
-  appId: "uk.co.andrewnovak.electronstockcharts",
+  appId: "uk.co.andrewnovak.stockcharts",
   directories: {
     app: "prod",
     output: "release",

@@ -1,10 +1,10 @@
-# electron-stock-charts
+# stock-charts
 
 Desktop app for visualizing stock charts.
 
 The app can be downloaded [here](https://andrewnovak.co.uk/project/7).
 
-To run in development mode:
+### To run in development mode:
 
 1. Install dependencies:
 
@@ -18,7 +18,7 @@ npm i
 npm run start
 ```
 
-To build for production:
+### To build for production:
 
 1. Install dependencies:
 
