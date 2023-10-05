@@ -4,9 +4,11 @@
 
 # Stock Charts
 
-Desktop app for visualizing stock charts.
+This desktop app specializes in stock data visualization, utilizing the Alpaca API. You can easily install the app on your Debian-based Linux distribution using the provided .deb file.
 
-The app can be downloaded [here](https://andrewnovak.co.uk/project/7).
+You can download it [here](https://andrewnovak.co.uk/project/7).
+
+<img src="https://github.com/andrew-novak/stock-charts/raw/main/readmeAssets/selecting-stock.gif" alt="GIF presenting the use of the Stock Charts app" width="512" height="512">
 
 ### To run in development mode:
 
